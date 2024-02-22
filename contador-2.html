@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contador Regressivo de Promoção</title>
+<style>
+  body {
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    background-color: #f9f9f9;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+
+  #contador {
+    font-size: 20px;
+    text-align: center;
+    margin-top: 20px;
+    background-color: #fff;
+    color: #333;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ddd;
+    transition: all 0.3s ease;
+  }
+
+  #contador:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+  }
+</style>
+</head>
+<body>
+
+<div id="contador"></div>
+
+<script>
+
+const dataTermino = new Date();
+dataTermino.setHours(dataTermino.getHours() + 23);
+dataTermino.setMinutes(dataTermino.getMinutes() + 59);
+
+function atualizarContador() {
+  const agora = new Date().getTime();
+  const diferenca = dataTermino - agora;
+
+  const horas = Math.floor((diferenca % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const minutos = Math.floor((diferenca % (1000 * 60 * 60)) / (1000 * 60));
+  const segundos = Math.floor((diferenca % (1000 * 60)) / 1000);
+
+  document.getElementById("contador").innerHTML = `A promoção acaba em: ${horas}h ${minutos}min ${segundos}s`;
+
+  if (diferenca < 0) {
+    clearInterval(contadorInterval);
+    document.getElementById("contador").innerHTML = "Promoção Encerrada";
+  }
+}
+
+atualizarContador(); 
+const contadorInterval = setInterval(atualizarContador, 1000); 
+</script>
+
+</body>
+</html>
